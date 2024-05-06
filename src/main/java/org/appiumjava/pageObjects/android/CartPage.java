@@ -31,7 +31,6 @@ public class CartPage extends AndroidActions {
     @AndroidFindBy(className="android.widget.CheckBox")
     private WebElement termsAgreementCheckBox;
 //    driver.findElement(By.className("android.widget.CheckBox")).click();
-
     @AndroidFindBy(id="com.androidsample.generalstore:id/btnProceed")
     private WebElement proceedButton;
 //      driver.findElement(By.id("com.androidsample.generalstore:id/btnProceed")).click();

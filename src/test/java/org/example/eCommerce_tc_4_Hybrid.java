@@ -3,20 +3,26 @@ package org.example;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import org.appiumjava.pageObjects.android.CartPage;
-import org.appiumjava.pageObjects.android.FormPage;
 import org.appiumjava.pageObjects.android.ProductCatalogPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.Set;
 
-public class eCommerce_tc_4_Hybrid extends BaseTest {
+public class eCommerce_tc_4_Hybrid extends AndroidBaseTest {
 
+
+    @Test
+    public void test() throws InterruptedException {
+        formPage.setGender("Female");
+        formPage.setCountry("Angola");
+        ProductCatalogPage productCatalogPage = formPage.submitForm();
+        String toastMassage = driver.findElement(By.xpath("//android.widget.Toast")).getAttribute("name");
+        Assert.assertEquals(toastMassage, "Please enter your name");
+    }
     @Test
     public  void  fillForm() throws InterruptedException {
         formPage.setNameField("TODO");
@@ -28,12 +34,8 @@ public class eCommerce_tc_4_Hybrid extends BaseTest {
         //driver.findElement(By.xpath("//android.widget.TextView[@text='ADD TO CART'][0]")).click(); - there is error
 
         CartPage cartPage = productCatalogPage.goToCartPage();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.
-                attributeContains(driver.findElement(
-                        By.id("com.androidsample.generalstore:id/toolbar_title")),"text", "Cart" ));
-
-
+        WebElement pageTitle = driver.findElement(By.id("com.androidsample.generalstore:id/toolbar_title"));
+        cartPage.waitForElementToAppear(pageTitle, "text", "Cart");
         Assert.assertEquals(cartPage.getActualTotalPrice(), cartPage.getCountedTotalPrice());
         Thread.sleep(2000);
         cartPage.termsPopupCheck();

@@ -7,12 +7,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 
-public class AndroidActions {
+public class AndroidActions extends AppiumUtils{
     AndroidDriver driver;
     public AndroidActions(AndroidDriver driver) {
+        super(driver);
         this.driver = driver;
     }
-
     public void scrollToText(String text) {
         driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text("+"\""+text+"\"))"));
     }
@@ -22,7 +22,6 @@ public class AndroidActions {
                 ImmutableMap.of("elementId", ((RemoteWebElement)element).getId(),
                         "duration", 2000));
     }
-
     public  void  scrollToEnd(){
         //NO PRIOR IDEA
         boolean canScrollMore;
@@ -35,7 +34,6 @@ public class AndroidActions {
                     ));
         }while(canScrollMore);
     }
-
     public  void  swipeAction(WebElement element, String duration){
         ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
                 "elementId", ((RemoteWebElement) element).getId(),
@@ -44,17 +42,11 @@ public class AndroidActions {
                 "percent", 0.75
         ));
     }
-
     public  void  dragAndDropAction(WebElement source, int endX, int endY){
         ((JavascriptExecutor) driver).executeScript("mobile: dragGesture", ImmutableMap.of(
                 "elementId", ((RemoteWebElement) source).getId(),
                 "endX", endX,
                 "endY", endY
         ));
-    }
-
-    public Double getFormattedAmount(String amount){
-        Double price = Double.parseDouble(amount.substring(1));
-        return price;
     }
 }
