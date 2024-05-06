@@ -1,22 +1,37 @@
 package org.example;
 
+import com.google.common.collect.ImmutableMap;
+import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import org.appiumjava.pageObjects.android.CartPage;
 import org.appiumjava.pageObjects.android.ProductCatalogPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Set;
 
 public class eCommerce_tc_4_Hybrid extends AndroidBaseTest {
 
+    @BeforeMethod
+    public void preSetUp() throws Exception {
+        //Navigate directly to the particular app page
+        //Terminal command to define the app package and activity: adb shell dumpsys window | find "mCurrentFocus"
+        //[packageName]/activityName
+        //io.appium.android.apis/io.appium.android.apis.preference.PreferenceDependencies
 
+        Activity activity = new Activity("com.androidsample.generalstore", "com.androidsample.generalstore.MainActivity}");
+        ((JavascriptExecutor)driver).executeScript("mobile: startActivity",
+                ImmutableMap.of("intent","com.androidsample.generalstore/com.androidsample.generalstore.MainActivity}"));
+
+    }
     @Test
-    public void test() throws InterruptedException {
+    public void test1_() throws InterruptedException {
         formPage.setGender("Female");
         formPage.setCountry("Angola");
         ProductCatalogPage productCatalogPage = formPage.submitForm();
@@ -24,7 +39,7 @@ public class eCommerce_tc_4_Hybrid extends AndroidBaseTest {
         Assert.assertEquals(toastMassage, "Please enter your name");
     }
     @Test
-    public  void  fillForm() throws InterruptedException {
+    public  void  test2_fillForm() throws InterruptedException {
         formPage.setNameField("TODO");
         formPage.setGender("Male");
         formPage.setCountry("Brazil");
